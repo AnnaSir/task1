@@ -5,10 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.anna.mytestpr.jdo.AppUser;
 import ru.anna.mytestpr.service.UserService;
 
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -20,13 +18,23 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/getAllUsers",
+    @RequestMapping(value = "/getAllActiveUsers",
             method = RequestMethod.GET)
 
     @ResponseBody
-    public String users(){
+    public String users() {
 
         return userService.allUsersAct();
     }
 
+    @RequestMapping(value = "/getAllUsers",
+            method = RequestMethod.GET)
+
+    @ResponseBody
+    public String users1() {
+
+        return userService.allUsers();
+
+
+    }
 }
