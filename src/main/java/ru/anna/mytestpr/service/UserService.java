@@ -3,39 +3,29 @@ package ru.anna.mytestpr.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.anna.mytestpr.dao.AppUserDao;
-import ru.anna.mytestpr.jdo.AppUser;
+import ru.anna.mytestpr.dao.UserDao;
+import ru.anna.mytestpr.jdo.User;
+
+import java.util.List;
 
 
 @Service
 public class UserService {
 
-    private AppUserDao appUserDao;
+    private UserDao appUserDao;
 
     @Autowired
-    public void setAppUserDao(AppUserDao appUserDao) {
+    public void setAppUserDao(UserDao appUserDao) {
         this.appUserDao = appUserDao;
     }
 
-    public String allUsers() {
 
-        StringBuilder s = new StringBuilder();
-        for (AppUser a : appUserDao.getAllUsers()
-                ) {
-            s.append(a.getUserName() + " " + a.getUserId() + " " + a.getUserBirthday() + " " + a.getUserActive() + "--");
-        }
-        return s.toString();
-
-
+    public List<User> getAllUsers() {
+        return appUserDao.getAllUsers();
     }
 
-    public String allUsersAct() {
-        StringBuilder s = new StringBuilder();
-        for (AppUser a : appUserDao.getAllUsers()
-                ) {
-            if (a.getUserActive())
-            s.append(a.getUserName() + " " + a.getUserId() + " " + a.getUserBirthday() + " -- ");
-        }
-        return s.toString();
+    public User getUserById(Long userId) {
+        return appUserDao.getUserById(userId);
+
     }
 }

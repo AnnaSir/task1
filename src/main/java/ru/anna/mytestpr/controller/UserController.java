@@ -1,9 +1,12 @@
 package ru.anna.mytestpr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ru.anna.mytestpr.service.UserService;
 
@@ -18,23 +21,29 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/getAllActiveUsers",
-            method = RequestMethod.GET)
 
-    @ResponseBody
-    public String users() {
+    @RequestMapping(value = "/getUser")
+    public String getCurrUser(Model model, @RequestParam(required = false) Long id) {
 
-        return userService.allUsersAct();
+        try {
+            if (id != null) {
+                model.addAttribute("user", userService.getUserById(id));
+            }
+            return "userInfo";
+        } catch (EmptyResultDataAccessException e) {
+            return "noUserException";
+        }
     }
 
-    @RequestMapping(value = "/getAllUsers",
-            method = RequestMethod.GET)
-
-    @ResponseBody
-    public String users1() {
-
-        return userService.allUsers();
-
-
+    @RequestMapping("/getAllUsers")
+    public String index(Model model) {
+        model.addAttribute("users", userService.getAllUsers());
+        return "allUsersInfo";
     }
+
+
 }
+
+
+
+
