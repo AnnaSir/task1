@@ -1,14 +1,12 @@
 package ru.anna.mytestpr.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.anna.mytestpr.jdo.Tour;
 import ru.anna.mytestpr.utils.MyFileUtils;
 
-import javax.annotation.PostConstruct;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -20,6 +18,15 @@ import java.util.Map;
 public class TourDaoImpl implements TourDao{
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Override
+    public void tourUpdate(Long tourId, Integer cnt) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("tour_id", tourId);
+        map.put("count_limit", cnt);
+        namedParameterJdbcTemplate.update("UPDATE SA.TOURLIST SET count_limit=:count_limit WHERE tour_id=:tour_id", map);
+    }
+
     private final TourMapper tourMapper= new TourMapper();
 
     @Override

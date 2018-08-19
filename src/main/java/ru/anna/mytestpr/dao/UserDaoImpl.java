@@ -1,14 +1,11 @@
 package ru.anna.mytestpr.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.anna.mytestpr.jdo.User;
-import ru.anna.mytestpr.utils.MyFileUtils;
 
-import javax.annotation.PostConstruct;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -20,9 +17,6 @@ public class UserDaoImpl implements UserDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final UserRowMapper userRowMapper= new UserRowMapper();
-
-    private final static String CREATE_ALL_TABLES = MyFileUtils.scriptLoader("/sql/createAllTables.sql");
-
 
     @Autowired
     public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {

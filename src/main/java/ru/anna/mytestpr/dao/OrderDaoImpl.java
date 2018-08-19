@@ -32,9 +32,6 @@ public class OrderDaoImpl implements OrderDao{
 
     @Override
     public Integer getCountOrders(Long userId, Long tourId) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("user_id", userId);
-        map.put("tour_id", tourId);
         Object[] args = {userId,tourId};
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM SA.ORDERLIST WHERE USER_ID=? and tour_id=?", args, Integer.class);
     }
@@ -64,7 +61,7 @@ public class OrderDaoImpl implements OrderDao{
         map.put("user_id", userId);
         map.put("tour_id", tourId);
         map.put("confirmed", confirmed);
-        namedParameterJdbcTemplate.update("INSERT INTO SA.ORDERLIST (user_id, user_name, tour_name, confirmed, time_key) select a.user_id, FIRST_NAME, name, :confirmed, sysdate from SA.USERLIST a, SA.TOURLIST b where  a.user_id=:user_id and b.tour_id =:tour_id", map);
+        namedParameterJdbcTemplate.update("INSERT INTO SA.ORDERLIST (user_id, tour_id, confirmed, time_key) select user_id, tour_id, :confirmed, sysdate from SA.USERLIST, SA.TOURLIST where user_id=:user_id and tour_id =:tour_id", map);
     }
 
     public static class OrderRowMap implements RowMapper<Order>{
@@ -74,9 +71,7 @@ public class OrderDaoImpl implements OrderDao{
             Order order = new Order();
             order.setOrderId(resultSet.getLong("order_id"));
             order.setUserId(resultSet.getLong("user_id"));
-            order.setUserName(resultSet.getString("user_name"));
             order.setTourId(resultSet.getLong("tour_id"));
-            order.setTourName(resultSet.getString("tour_name"));
             order.setConfirmed(resultSet.getBoolean("confirmed"));
             order.setTimeKey(resultSet.getTimestamp("time_key"));
 

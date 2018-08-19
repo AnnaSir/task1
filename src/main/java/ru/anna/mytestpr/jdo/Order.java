@@ -6,25 +6,6 @@ public class Order {
 
     private Long orderId;
     private Long userId;
-    private String userName;
-    private String tourName;
-
-    public String getTourName() {
-        return tourName;
-    }
-
-    public void setTourName(String tourName) {
-        this.tourName = tourName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     private Long tourId;
     private Boolean confirmed;
     private Date timeKey;

@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 @Component
 public class InitDb {
     private JdbcTemplate jdbcTemplate;
-    private final static String CREATE_ORDER_LIST=MyFileUtils.scriptLoader("/sql/createAllTables.sql");
+    private final static String INIT_DB=MyFileUtils.scriptLoader("/sql/createAllTables.sql");
     @Autowired
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -19,6 +19,6 @@ public class InitDb {
     @PostConstruct
     public void initBd() {
 
-        jdbcTemplate.execute(CREATE_ORDER_LIST);
+        jdbcTemplate.execute(INIT_DB);
     }
 }

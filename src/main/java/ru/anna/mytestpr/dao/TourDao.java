@@ -7,4 +7,5 @@ import java.util.List;
 public interface TourDao {
     List<Tour> getAllTours();
     Tour getTourById(Long tour);
+    void tourUpdate(Long tourId, Integer cnt);
 }
