@@ -2,6 +2,9 @@ package ru.anna.mytestpr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,9 +34,10 @@ public class TourContoller {
     }
 
     @RequestMapping(value="/getAllTours")
-
     public String AllTours(Model model){
         model.addAttribute("tours", tourService.getAllTours());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(((User)authentication.getPrincipal()).getUsername());
         return "allTourInfo";
     }
 }

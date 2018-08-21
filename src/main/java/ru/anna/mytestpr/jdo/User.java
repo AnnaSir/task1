@@ -1,10 +1,16 @@
 package ru.anna.mytestpr.jdo;
 
+
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class User {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
+    @Column(nullable = false, unique = true)
     private String firstName;
     private String lastName;
     private String email;
