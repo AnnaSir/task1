@@ -11,7 +11,6 @@ import ru.anna.mytestpr.service.OrderService;
 @Controller
 public class OrderController {
 
-
     @Autowired
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
@@ -19,12 +18,10 @@ public class OrderController {
 
     private OrderService orderService;
 
-
     @RequestMapping(value = "/addOrder")
     public String addOrder(Model model, Long userId, Long tourId) {
-        model.addAttribute("result",orderService.addOrder(userId,tourId) );
+        model.addAttribute("result", orderService.addOrder(userId, tourId));
         return "orderInsert";
-
     }
 
     @RequestMapping(value = "/delOrder")
@@ -39,8 +36,5 @@ public class OrderController {
         model.addAttribute("orders", orderService.getOrderList());
         return "allOrderInfo";
     }
-
-
-
 
 }

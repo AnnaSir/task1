@@ -16,7 +16,7 @@ import java.util.Map;
 public class UserDaoImpl implements UserDao {
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final UserRowMapper userRowMapper= new UserRowMapper();
+    private final UserRowMapper userRowMapper = new UserRowMapper();
 
     @Autowired
     public void setNamedParameterJdbcTemplate(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -36,7 +36,15 @@ public class UserDaoImpl implements UserDao {
         return namedParameterJdbcTemplate.queryForObject("SELECT * FROM SA.USERLIST WHERE user_id = :user_id", map, userRowMapper);
     }
 
-    private static class UserRowMapper implements RowMapper<User>{
+    @Override
+    public User getUserByName(String name) {
+        Map<String, String> map = new HashMap<>();
+        map.put("first_name", name);
+        return namedParameterJdbcTemplate.queryForObject("SELECT * FROM SA.USERLIST WHERE first_name = :first_name", map, userRowMapper);
+
+    }
+
+    private static class UserRowMapper implements RowMapper<User> {
 
         @Override
         public User mapRow(ResultSet resultSet, int i) throws SQLException {
@@ -45,13 +53,14 @@ public class UserDaoImpl implements UserDao {
             user.setFirstName(resultSet.getString("first_name"));
             user.setLastName(resultSet.getString("last_name"));
             user.setEmail(resultSet.getString("email"));
+            //user.setPassword(new BCryptPasswordEncoder(11).encode(resultSet.getString("password")));
             user.setPassword(resultSet.getString("password"));
+
             user.setActive(resultSet.getBoolean("active"));
             user.setBirthday(resultSet.getDate("birthday"));
             return user;
         }
     }
-
 
 
 }

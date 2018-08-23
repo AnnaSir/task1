@@ -5,7 +5,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.anna.mytestpr.service.UserService;
 
 
@@ -19,14 +18,11 @@ public class UserController {
         this.userService = userService;
     }
 
-
     @RequestMapping(value = "/getUser")
-    public String getCurrUser(Model model, @RequestParam(required = false) Long id) {
+    public String getCurrUser(Model model) {
 
         try {
-            if (id != null) {
-                model.addAttribute("user", userService.getUserById(id));
-            }
+            model.addAttribute("user", userService.getUser());
             return "userInfo";
         } catch (EmptyResultDataAccessException e) {
             return "noUserException";

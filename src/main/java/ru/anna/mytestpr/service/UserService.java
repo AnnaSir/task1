@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.anna.mytestpr.dao.UserDao;
 import ru.anna.mytestpr.jdo.User;
+import ru.anna.mytestpr.utils.UserUtils;
 
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class UserService {
         return appUserDao.getAllUsers();
     }
 
-    public User getUserById(Long userId) {
-        return appUserDao.getUserById(userId);
+    public User getUser() {
+        return appUserDao.getUserById(UserUtils.getCurrUser().getUserId());
 
     }
 }

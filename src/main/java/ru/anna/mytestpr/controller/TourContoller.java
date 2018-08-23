@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,6 @@ public class TourContoller {
         this.tourService = tourService;
     }
 
-
     @RequestMapping( value="/getTour")
     public String tour(Model model, @RequestParam(required = false) Long tourId){
         try{
@@ -37,7 +36,7 @@ public class TourContoller {
     public String AllTours(Model model){
         model.addAttribute("tours", tourService.getAllTours());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(((User)authentication.getPrincipal()).getUsername());
+        System.out.println(((UserDetails)authentication.getPrincipal()).getUsername());
         return "allTourInfo";
     }
 }
