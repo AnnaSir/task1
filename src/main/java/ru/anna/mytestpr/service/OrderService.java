@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.anna.mytestpr.dao.OrderDao;
 import ru.anna.mytestpr.dao.TourDao;
 import ru.anna.mytestpr.jdo.Order;
+import ru.anna.mytestpr.utils.UserUtils;
 
 import java.util.List;
 
@@ -20,9 +21,11 @@ public class OrderService {
 
     private TourDao tourDao;
 
-    public String addOrder(Long userId, Long tourId) {
+    public String addOrder(Long tourId) {
 
-        if (orderDao.getCountOrders(userId, tourId) > 0) {
+        Long userId = UserUtils.getCurrUser().getUserId();
+
+        if (orderDao.getCountOrders(tourId) > 0) {
             return "Заказ существует";
         }
 
@@ -30,8 +33,8 @@ public class OrderService {
             return "Туров не осталось";
         }
 
-        orderDao.addOrder(userId, tourId, true);
-        if (orderDao.getCountOrders(userId, tourId) == 1) {
+        orderDao.addOrder(tourId, true);
+        if (orderDao.getCountOrders(tourId) == 1) {
             tourDao.tourUpdate(tourId, tourDao.getTourById(tourId).getCountLimit() - 1);
             return "Заказ успешно добавлен";
         }
@@ -44,10 +47,9 @@ public class OrderService {
         this.orderDao = orderDao;
     }
 
-    public Order getOrder(Long orderId) {
-        return orderDao.getOrder(orderId);
+    public List<Order> getOrders() {
+        return orderDao.getOrder();
     }
-
 
     public List<Order> getOrderList() {
         return orderDao.getOrderList();

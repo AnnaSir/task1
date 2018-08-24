@@ -19,8 +19,8 @@ public class OrderController {
     private OrderService orderService;
 
     @RequestMapping(value = "/addOrder")
-    public String addOrder(Model model, Long userId, Long tourId) {
-        model.addAttribute("result", orderService.addOrder(userId, tourId));
+    public String addOrder(Model model, Long tourId) {
+        model.addAttribute("result", orderService.addOrder(tourId));
         return "orderInsert";
     }
 
@@ -28,7 +28,7 @@ public class OrderController {
     @ResponseBody
     public String delOrder(Model model, @RequestParam(required = false) Long orderId) {
         orderService.oderDel(orderId);
-        return "Oder by user " + orderId + " deleted";
+        return "Order by user " + orderId + " deleted";
     }
 
     @RequestMapping(value = "/getOrders")
@@ -36,5 +36,13 @@ public class OrderController {
         model.addAttribute("orders", orderService.getOrderList());
         return "allOrderInfo";
     }
+
+    @RequestMapping(value = "/getUserOrders")
+    public String getUserOrders(Model model) {
+        model.addAttribute("orders", orderService.getOrders());
+        return "orderInfo";
+    }
+
+
 
 }

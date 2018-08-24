@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.anna.mytestpr.jdo.Order;
+import ru.anna.mytestpr.utils.UserUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +32,9 @@ public class OrderDaoImpl implements OrderDao{
     }
 
     @Override
-    public Integer getCountOrders(Long userId, Long tourId) {
+    public Integer getCountOrders(Long tourId) {
+        Long userId = UserUtils.getCurrUser().getUserId();
+
         Object[] args = {userId,tourId};
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM SA.ORDERLIST WHERE USER_ID=? and tour_id=?", args, Integer.class);
     }
@@ -44,10 +47,11 @@ public class OrderDaoImpl implements OrderDao{
     }
 
     @Override
-    public Order getOrder(Long orderId) {
+    public List<Order> getOrder() {
+        Long userId = UserUtils.getCurrUser().getUserId();
         Map<String, Long> map = new HashMap<>();
-        map.put("order_id", orderId);
-        return namedParameterJdbcTemplate.queryForObject("SELECT * FROM SA.ORDERLIST WHERE USER_ID=:order_id", map, orderRowMap);
+        map.put("user_id", userId);
+        return namedParameterJdbcTemplate.query("SELECT * FROM SA.ORDERLIST WHERE USER_ID=:user_id", map, orderRowMap);
     }
 
     @Override
@@ -55,8 +59,9 @@ public class OrderDaoImpl implements OrderDao{
         return namedParameterJdbcTemplate.query("SELECT * FROM SA.ORDERLIST", new OrderRowMap());
     }
 
-    public void addOrder(Long userId, Long tourId, Boolean confirmed) {
+    public void addOrder(Long tourId, Boolean confirmed) {
 
+        Long userId = UserUtils.getCurrUser().getUserId();
         Map<String, Object> map = new HashMap<>();
         map.put("user_id", userId);
         map.put("tour_id", tourId);
