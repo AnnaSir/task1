@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 
@@ -15,6 +14,7 @@
 <th>Start Date</th>
 <th>End Date</th>
 <th>Count Limit</th>
+<th>Add tour</th>
 </tr>
     <c:forEach var="tour" items="${tours}" >
         <tr>
@@ -25,10 +25,13 @@
             <td>${tour.startDate}</td>
             <td>${tour.endDate}</td>
             <td>${tour.countLimit}</td>
-
+            <td><a href="<c:url value = "/addOrder?tourId=${tour.tourId}"/>">here</a></td>
         </tr>
     </c:forEach>
 </table>
+
+<p>Click <a href="<c:url value = "/getMainPage"/>">here</a> to return</p>
+<p>Click <a href="<c:url value = "/logout"/>">here</a> to logout</p>
 
 </body>
 </html>
