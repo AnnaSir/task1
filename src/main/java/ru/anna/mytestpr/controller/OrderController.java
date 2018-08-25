@@ -25,10 +25,9 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/delOrder")
-    @ResponseBody
-    public String delOrder(Model model, @RequestParam(required = false) Long orderId) {
+    public String delOrder(Model model, Long orderId) {
         orderService.oderDel(orderId);
-        return "Order by user " + orderId + " deleted";
+        return "orderDel";
     }
 
     @RequestMapping(value = "/getOrders")

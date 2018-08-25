@@ -6,5 +6,6 @@
 </head>
 <body>
     <h1> ${user}</h1>
+    <p><a href="<c:url value = "/getUser"/>">Ок</a></p>
 </body>
 </html>

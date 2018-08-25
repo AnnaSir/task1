@@ -1,16 +1,18 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <!DOCTYPE html>
 <html>
 <head></head>
 <body>
-   <h1>Login</h1>
+   <h1>Представьтесь, пожалуйста</h1>
    <form name='f' action="login" method='POST'>
       <table>
          <tr>
-            <td>User1:</td>
+            <td>Имя пользователя:</td>
             <td><input type='text' name='username' value=''></td>
          </tr>
          <tr>
-            <td>Password:</td>
+            <td>Пароль:</td>
             <td><input type='password' name='password' /></td>
          </tr>
          <input type="hidden"
