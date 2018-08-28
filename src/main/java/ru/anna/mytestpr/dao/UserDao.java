@@ -15,5 +15,6 @@ public interface UserDao {
  void updateEmail(String email);
  void updatePass(String pass);
  void updateLogin(String login);
+ Integer getCountUsers(String name);
 
 }

@@ -1,6 +1,7 @@
 package ru.anna.mytestpr.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,14 @@ import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements UserDao {
+
+    private JdbcTemplate jdbcTemplate;
+
+
+    @Autowired
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final UserRowMapper userRowMapper = new UserRowMapper();
@@ -91,6 +100,10 @@ public class UserDaoImpl implements UserDao {
         namedParameterJdbcTemplate.update("UPDATE SA.USERLIST SET first_name =:first_name WHERE user_id=:user_id", map);
     }
 
+    @Override
+    public Integer getCountUsers(String name) {
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM SA.USERLIST WHERE FIRST_NAME=?", new Object[]{name}, Integer.class);
+    }
 
     private static class UserRowMapper implements RowMapper<User> {
 
@@ -107,6 +120,4 @@ public class UserDaoImpl implements UserDao {
             return user;
         }
     }
-
-
 }

@@ -1,9 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<!DOCTYPE html>
-
 <html>
-<head></head>
+<head>
+    <title>User info</title>
+</head>
 <body>
-<h1>Вас не существует</h1>
+    <h1> ${result}</h1>
 </body>
 </html>

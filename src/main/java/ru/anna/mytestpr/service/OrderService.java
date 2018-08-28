@@ -1,9 +1,11 @@
 package ru.anna.mytestpr.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.anna.mytestpr.dao.OrderDao;
 import ru.anna.mytestpr.dao.TourDao;
+import ru.anna.mytestpr.exceptions.BusinessException;
 import ru.anna.mytestpr.jdo.Order;
 import ru.anna.mytestpr.utils.UserUtils;
 
@@ -38,8 +40,7 @@ public class OrderService {
             tourDao.tourUpdate(tourId, tourDao.getTourById(tourId).getCountLimit() - 1);
             return "Заказ успешно добавлен";
         }
-
-        return "Ошибка при добавлении заказа";
+        throw new BusinessException("Ошибка при добавлении заказа");
     }
 
     @Autowired
@@ -48,16 +49,22 @@ public class OrderService {
     }
 
     public List<Order> getOrders() {
-        return orderDao.getOrder();
-    }
 
-    public List<Order> getOrderList() {
-        return orderDao.getOrderList();
+        if (orderDao.getOrders().isEmpty())
+            throw new BusinessException("there is no orders");
+        else return orderDao.getOrders();
+
     }
 
     public void oderDel(Long orderId) {
-        orderDao.delete(orderId);
+        try{
+            orderDao.getOrder(orderId);
+            orderDao.delete(orderId);
+        }
+        catch (EmptyResultDataAccessException e){
+            throw new BusinessException("order does not exist");
+
+        }
+
     }
-
-
 }

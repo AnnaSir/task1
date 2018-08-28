@@ -1,14 +1,16 @@
 package ru.anna.mytestpr.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import ru.anna.mytestpr.exceptions.BusinessException;
 import ru.anna.mytestpr.service.TourService;
 
 
@@ -16,27 +18,39 @@ import ru.anna.mytestpr.service.TourService;
 public class TourContoller {
     private TourService tourService;
 
+    @ExceptionHandler(BusinessException.class)
+    public ModelAndView handleBusinessException (BusinessException e) {
+        ModelAndView modelAndView = new ModelAndView("noTourException");
+        modelAndView.addObject("result", e.getMessage());
+        return modelAndView;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleIOException (Exception e) {
+        ModelAndView modelAndView = new ModelAndView("exceptions");
+        modelAndView.addObject("result", e.getMessage());
+        return modelAndView;
+    }
+
     @Autowired
     public void setTourService(TourService tourService) {
         this.tourService = tourService;
     }
 
-    @RequestMapping( value="/getTour")
-    public String tour(Model model, @RequestParam(required = false) Long tourId){
-        try{
-        if (tourId!=null){
-        model.addAttribute("tour", tourService.getTourById(tourId));}
-        return "tourInfo";}
-        catch (EmptyResultDataAccessException e){
-            return "noTourException";
-        }
+    @RequestMapping(value = "/getTour")
+    public String tour(Model model, @RequestParam(required = false) Long tourId) {
+
+            if (tourId != null) {
+                model.addAttribute("tour", tourService.getTourById(tourId));
+            }
+            return "tourInfo";
     }
 
-    @RequestMapping(value="/getAllTours")
-    public String AllTours(Model model){
+    @RequestMapping(value = "/getAllTours")
+    public String allTours(Model model) {
         model.addAttribute("tours", tourService.getAllTours());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(((UserDetails)authentication.getPrincipal()).getUsername());
+        System.out.println(((UserDetails) authentication.getPrincipal()).getUsername());
         return "allTourInfo";
     }
 }

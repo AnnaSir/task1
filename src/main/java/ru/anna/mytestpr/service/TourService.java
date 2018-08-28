@@ -1,8 +1,10 @@
 package ru.anna.mytestpr.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import ru.anna.mytestpr.dao.TourDao;
+import ru.anna.mytestpr.exceptions.BusinessException;
 import ru.anna.mytestpr.jdo.Tour;
 
 import java.util.List;
@@ -18,12 +20,20 @@ public class TourService {
     }
 
     public List<Tour> getAllTours(){
-        return tourDao.getAllTours();
-    }
+
+        if (tourDao.getAllTours().isEmpty())
+            throw new BusinessException("there is no tours");
+        else return tourDao.getAllTours();
+        }
+
 
     public Tour getTourById(Long tour){
-        return tourDao.getTourById(tour);
+
+        try {
+            return tourDao.getTourById(tour);
+        }
+        catch (EmptyResultDataAccessException e){
+            throw new BusinessException("tour does not exist");
+        }
     }
-
-
 }

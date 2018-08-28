@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+import ru.anna.mytestpr.exceptions.BusinessException;
 import ru.anna.mytestpr.service.UserService;
 
 import java.util.Date;
@@ -13,6 +15,22 @@ import java.util.Date;
 
 @Controller
 public class UserController {
+
+    @ExceptionHandler(BusinessException.class)
+    public ModelAndView handleBusinessException (BusinessException e) {
+        ModelAndView modelAndView = new ModelAndView("noUserException");
+        modelAndView.addObject("result", e.getMessage());
+        return modelAndView;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleIOException (Exception e) {
+        ModelAndView modelAndView = new ModelAndView("exceptions");
+        modelAndView.addObject("result", e.getMessage());
+        modelAndView.addObject("eClass", e.getClass());
+        return modelAndView;
+    }
+
 
     private UserService userService;
 
@@ -23,7 +41,6 @@ public class UserController {
 
     @RequestMapping(value = "/getUser")
     public String getCurrUser(Model model) {
-
         try {
             model.addAttribute("user", userService.getUser());
             return "userInfo";
@@ -59,9 +76,6 @@ public class UserController {
     public String logout(){
         return "logout";
     }
-
-
-
 }
 
 

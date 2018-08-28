@@ -18,6 +18,14 @@ import java.util.Map;
 public class OrderDaoImpl implements OrderDao{
 
     private JdbcTemplate jdbcTemplate;
+
+    @Override
+    public Order getOrder(Long orderId) {
+        Map<String, Long> parameters = new HashMap<>();
+        parameters.put("order_id", orderId);
+        return namedParameterJdbcTemplate.queryForObject("SELECT * FROM SA.ORDERLIST WHERE order_id = :order_id", parameters, orderRowMap);
+    }
+
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private OrderRowMap orderRowMap = new OrderRowMap();
 
@@ -34,22 +42,22 @@ public class OrderDaoImpl implements OrderDao{
     @Override
     public Integer getCountOrders(Long tourId) {
         Long userId = UserUtils.getCurrUser().getUserId();
-
         Object[] args = {userId,tourId};
         return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM SA.ORDERLIST WHERE USER_ID=? and tour_id=?", args, Integer.class);
     }
 
     @Override
     public void delete(Long orderId) {
-        Map<String, Long> map = new HashMap<>();
-        map.put("order_id", orderId);
-        namedParameterJdbcTemplate.update("DELETE FROM SA.ORDERLIST WHERE ORDER_ID=:order_id", map);
+        Map<String, Long> parameters = new HashMap<>();
+        parameters.put("order_id", orderId);
+        namedParameterJdbcTemplate.update("DELETE FROM SA.ORDERLIST WHERE ORDER_ID=:order_id", parameters);
     }
 
     @Override
-    public List<Order> getOrder() {
+    public List<Order> getOrders() {
         Long userId = UserUtils.getCurrUser().getUserId();
         Map<String, Long> map = new HashMap<>();
+
         map.put("user_id", userId);
         return namedParameterJdbcTemplate.query("SELECT * FROM SA.ORDERLIST WHERE USER_ID=:user_id", map, orderRowMap);
     }
@@ -60,7 +68,6 @@ public class OrderDaoImpl implements OrderDao{
     }
 
     public void addOrder(Long tourId, Boolean confirmed) {
-
         Long userId = UserUtils.getCurrUser().getUserId();
         Map<String, Object> map = new HashMap<>();
         map.put("user_id", userId);

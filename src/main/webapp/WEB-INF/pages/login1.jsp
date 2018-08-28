@@ -18,11 +18,9 @@
          <input type="hidden"
              name="${_csrf.parameterName}"
              value="${_csrf.token}"/>
-
          <tr>
             <td><input type="submit" name="submit"/></td>
          </tr>
-
       </table>
   </form>
 </body>

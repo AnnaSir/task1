@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import ru.anna.mytestpr.service.MyOwnAuthenticationEntryPoint;
 import ru.anna.mytestpr.service.MyUserDetailsService;
 
 @Configuration
@@ -15,6 +16,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService userDetailsService;
 
+    @Autowired
+    private MyOwnAuthenticationEntryPoint myOwnAuthenticationEntryPoint;
+
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
@@ -23,7 +27,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http
+        http.exceptionHandling().authenticationEntryPoint(myOwnAuthenticationEntryPoint)
+                .and()
                 .csrf()
                 .disable()
                 .authorizeRequests()

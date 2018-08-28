@@ -2,10 +2,11 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <html>
 <head>
-    <title>User info</title>
+    <title>Exception</title>
 </head>
 <body>
-    <h1> ${user}</h1>
-    <p><a href="<c:url value = "/getUser"/>">Ок</a></p>
+    <p> ${result}</p>
+    <p> ${eMessage}</p>
+    <p> ${eClass}</p>
 </body>
 </html>
