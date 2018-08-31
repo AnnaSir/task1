@@ -48,17 +48,11 @@
         <tr>
             <td>Статус</td>
             <td>${user.active?"активен":"неактивен"}</td>
-
-        </tr>
-        <tr>
-            <td>Дата рождения</td>
-            <td>${user.birthday}</td>
-            <td>Пока нельзя изменить:(</td>
-
         </tr>
      </table>
 
 </c:if>
+     <p><a href="<c:url value = "/updatePass"/>">Сменить пароль</a></p>
      <p><a href="<c:url value = "/getMainPage"/>">Вернуться на главную</a></p>
      <p><a href="<c:url value = "/logout"/>">Выйти</a></p>
 

@@ -86,7 +86,6 @@ public class OrderDaoImpl implements OrderDao{
             order.setTourId(resultSet.getLong("tour_id"));
             order.setConfirmed(resultSet.getBoolean("confirmed"));
             order.setTimeKey(resultSet.getTimestamp("time_key"));
-
             return order;
         }
     }

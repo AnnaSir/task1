@@ -41,12 +41,6 @@ public class TourDaoImpl implements TourDao{
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-
-    private final static String CREATE_ALL_TABLES=MyFileUtils.scriptLoader("/sql/createAllTables.sql");
-
-
-
-
     @Override
     public List<Tour> getAllTours() {
 
@@ -65,10 +59,8 @@ public class TourDaoImpl implements TourDao{
             tour.setStartDate(resultSet.getDate("start_date"));
             tour.setEndDate(resultSet.getDate("end_date"));
             tour.setCountLimit(resultSet.getInt("count_limit"));
-
             return tour;
         }
-
 
     }
 }

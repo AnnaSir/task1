@@ -10,27 +10,24 @@ import org.springframework.web.servlet.ModelAndView;
 import ru.anna.mytestpr.exceptions.BusinessException;
 import ru.anna.mytestpr.service.UserService;
 
-import java.util.Date;
-
 
 @Controller
 public class UserController {
 
     @ExceptionHandler(BusinessException.class)
-    public ModelAndView handleBusinessException (BusinessException e) {
+    public ModelAndView handleBusinessException(BusinessException e) {
         ModelAndView modelAndView = new ModelAndView("noUserException");
         modelAndView.addObject("result", e.getMessage());
         return modelAndView;
     }
 
     @ExceptionHandler(Exception.class)
-    public ModelAndView handleIOException (Exception e) {
+    public ModelAndView handleIOException(Exception e) {
         ModelAndView modelAndView = new ModelAndView("exceptions");
         modelAndView.addObject("result", e.getMessage());
         modelAndView.addObject("eClass", e.getClass());
         return modelAndView;
     }
-
 
     private UserService userService;
 
@@ -57,24 +54,8 @@ public class UserController {
 
     @RequestMapping(value = "/userUpdate")
     public String userUpdate(Model model, Integer a, String s) {
-        model.addAttribute("user", userService.userUpdate(a,s));
+        model.addAttribute("user", userService.userUpdate(a, s));
         return "userUpdate";
-    }
-
-    @RequestMapping(value = "/userUpdateBirth")//todo
-    public String userUpdate(Model model, Date d) {
-        model.addAttribute("user", userService.updateBirth(d));
-        return "userUpdate";
-    }
-
-    @RequestMapping(value = "/getMainPage")
-    public String getMainPage(){
-        return "mainPage";
-    }
-
-    @RequestMapping(value = "/logout")
-    public String logout(){
-        return "logout";
     }
 }
 

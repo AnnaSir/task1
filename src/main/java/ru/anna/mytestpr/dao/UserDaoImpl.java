@@ -65,15 +65,6 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void updateBirth(Date birth) {
-        Long userId = UserUtils.getCurrUser().getUserId();
-        Map<String, Object> map = new HashMap<>();
-        map.put("user_id", userId);
-        map.put("birthday", birth);
-        namedParameterJdbcTemplate.update("UPDATE SA.USERLIST SET birthday =:birthday WHERE user_id=:user_id", map);
-    }
-
-    @Override
     public void updateEmail(String email) {
         Long userId = UserUtils.getCurrUser().getUserId();
         Map<String, Object> map = new HashMap<>();
@@ -82,14 +73,6 @@ public class UserDaoImpl implements UserDao {
         namedParameterJdbcTemplate.update("UPDATE SA.USERLIST SET email =:email WHERE user_id=:user_id", map);
     }
 
-    @Override
-    public void updatePass(String pass) {
-        Long userId = UserUtils.getCurrUser().getUserId();
-        Map<String, Object> map = new HashMap<>();
-        map.put("user_id", userId);
-        map.put("password", pass);
-        namedParameterJdbcTemplate.update("UPDATE SA.USERLIST SET password =:password WHERE user_id=:user_id", map);
-    }
 
     @Override
     public void updateLogin(String login) {

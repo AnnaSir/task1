@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ru.anna.mytestpr.exceptions.BusinessException;
 import ru.anna.mytestpr.service.TourService;
@@ -35,15 +34,6 @@ public class TourContoller {
     @Autowired
     public void setTourService(TourService tourService) {
         this.tourService = tourService;
-    }
-
-    @RequestMapping(value = "/getTour")
-    public String tour(Model model, @RequestParam(required = false) Long tourId) {
-
-            if (tourId != null) {
-                model.addAttribute("tour", tourService.getTourById(tourId));
-            }
-            return "tourInfo";
     }
 
     @RequestMapping(value = "/getAllTours")

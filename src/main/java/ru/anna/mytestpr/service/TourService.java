@@ -26,7 +26,6 @@ public class TourService {
         else return tourDao.getAllTours();
         }
 
-
     public Tour getTourById(Long tour){
 
         try {
